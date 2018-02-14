@@ -5,7 +5,6 @@ from sklearn.metrics import accuracy_score, classification_report
 import pandas as pd
 
 def retrieveData():
-    print(pd.read_csv("training-data.csv", header=None))
     trainingData = pd.read_csv("training-data.csv", header=None).as_matrix()
     testData = pd.read_csv("test-data.csv", header=None).as_matrix()
 
