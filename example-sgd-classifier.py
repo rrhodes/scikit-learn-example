@@ -4,19 +4,22 @@ from sklearn.metrics import accuracy_score, classification_report
 
 import pandas as pd
 
+
 def retrieveData():
     trainingData = pd.read_csv("training-data.csv", header=None).as_matrix()
     testData = pd.read_csv("test-data.csv", header=None).as_matrix()
 
     return trainingData, testData
 
-def separateFeaturesAndCategories(trainingData, testData):
-  trainingFeatures = trainingData[:, :-1]
-  trainingCategories = trainingData[:, -1:]
-  testFeatures = testData[:, :-1]
-  testCategories = testData[:, -1:]
 
-  return trainingFeatures, trainingCategories, testFeatures, testCategories
+def separateFeaturesAndCategories(trainingData, testData):
+    trainingFeatures = trainingData[:, :-1]
+    trainingCategories = trainingData[:, -1:]
+    testFeatures = testData[:, :-1]
+    testCategories = testData[:, -1:]
+
+    return trainingFeatures, trainingCategories, testFeatures, testCategories
+
 
 def scaleData(trainingFeatures, testFeatures):
     scaler = StandardScaler()
@@ -27,6 +30,7 @@ def scaleData(trainingFeatures, testFeatures):
 
     return scaledTrainingFeatures, scaledTestFeatures
 
+
 def classifyTestSamples(trainingFeatures, trainingCategories, testFeatures):
     clf = SGDClassifier()
 
@@ -35,6 +39,7 @@ def classifyTestSamples(trainingFeatures, trainingCategories, testFeatures):
 
     return predictedCategories
 
+
 def gatherClassificationMetrics(testCategories, predictedCategories):
     accuracy = accuracy_score(testCategories, predictedCategories)
     metrics_report = classification_report(testCategories, predictedCategories)
@@ -42,15 +47,21 @@ def gatherClassificationMetrics(testCategories, predictedCategories):
     print("Accuracy rate: " + str(round(accuracy, 2)) + "\n")
     print(metrics_report)
 
+
 def main():
     trainingData, testData = retrieveData()
 
-    trainingFeatures, trainingCategories, testFeatures, testCategories = separateFeaturesAndCategories(trainingData, testData)
+    trainingFeatures, trainingCategories, testFeatures, testCategories = \
+        separateFeaturesAndCategories(trainingData, testData)
 
-    scaledTrainingFeatures, scaledTestingFeatures = scaleData(trainingFeatures, testFeatures)
+    scaledTrainingFeatures, scaledTestingFeatures = \
+        scaleData(trainingFeatures, testFeatures)
 
-    predictedCategories = classifyTestSamples(trainingFeatures, trainingCategories, testFeatures)
+    predictedCategories = \
+        classifyTestSamples(trainingFeatures, trainingCategories, testFeatures)
 
     gatherClassificationMetrics(testCategories, predictedCategories)
 
-if __name__ == "__main__": main()
+
+if __name__ == "__main__":
+    main()
